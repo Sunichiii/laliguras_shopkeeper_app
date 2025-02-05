@@ -69,4 +69,12 @@ class VegetableProvider with ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
   }
+
+  Vegetable? _selectedVegetable;
+  Vegetable? get selectedVegetable => _selectedVegetable;
+
+  void setSelectedVegetable(Vegetable vegetable) {
+    _selectedVegetable = vegetable;
+    notifyListeners();
+  }
 }

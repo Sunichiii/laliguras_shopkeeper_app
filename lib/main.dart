@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laliguras_shopkeeper/providers/bulkorder_provider.dart';
+import 'package:laliguras_shopkeeper/providers/cart_provider.dart';
 import 'package:laliguras_shopkeeper/providers/delivery_provider.dart';
 import 'package:laliguras_shopkeeper/providers/favourites_provider.dart';
 import 'package:laliguras_shopkeeper/providers/order_provider.dart';
@@ -27,6 +28,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => OrderProvider()),
       ChangeNotifierProvider(create: (_) => DeliveryProvider()),
       ChangeNotifierProvider(create: (_) => SalesProvider()),
+      ChangeNotifierProvider(create: (_) => CartProvider()),
     //  ChangeNotifierProvider(create: (_) => BasketProvider()),
     ],
     child: MaterialApp(

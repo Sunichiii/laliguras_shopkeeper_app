@@ -10,6 +10,10 @@ import '../presentation/screens/primary screens/order_page.dart';
 import '../presentation/screens/primary screens/search_page.dart';
 import '../presentation/screens/primary screens/shopkeeper_homepage.dart';
 
+import '../presentation/screens/secondary screens/cart_page.dart';
+import '../presentation/screens/secondary screens/checkout_page.dart';
+import '../presentation/screens/secondary screens/payment_page.dart';
+import '../presentation/screens/secondary screens/product_details_page.dart';
 import '../presentation/screens/secondary screens/sales_page.dart';
 import '../providers/delivery_provider.dart';
 import '../providers/order_provider.dart';
@@ -35,6 +39,15 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SearchPage());
       case '/sales':
         return MaterialPageRoute(builder: (_) => const SalesPage());
+      case '/basket':
+        return MaterialPageRoute(builder: (_) => const CartPage());
+      case '/checkout':
+        return MaterialPageRoute(builder: (_) =>  const CheckoutPage());
+      case '/payment':
+        return MaterialPageRoute(builder: (_) =>  const PaymentPage());
+
+      case '/productdetails':
+        return MaterialPageRoute(builder: (_) => const ProductDetailsPage());
 
 
       case '/delivery':
