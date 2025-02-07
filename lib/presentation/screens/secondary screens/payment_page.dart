@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:laliguras_shopkeeper/widgets/custom%20buttons/long_button.dart';
 import '../../../core/themes/colors.dart';
 import '../../../widgets/custom bars/secondary_appbar.dart';
 
@@ -17,41 +18,19 @@ class _PaymentPageState extends State<PaymentPage> {
     return Scaffold(
       appBar: const SecondaryAppBar(title: "Payment"),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(right: 16.0, bottom: 40, left: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Payment Method Options
             _buildPaymentOptionCard("Esewa", context),
-            const SizedBox(height: 12),
             _buildPaymentOptionCard("Cash on delivery", context),
-            const SizedBox(height: 12),
             _buildPaymentOptionCard("Khalti", context),
 
             const Spacer(),
 
             // Pay Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Payment method selected: $selectedPaymentMethod"),
-                    ),
-                  );
-                  // Implement the payment logic here
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                ),
-                child: const Text(
-                  "Pay",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
+             LongButton(text: "Pay", onPressed: (){})
           ],
         ),
       ),

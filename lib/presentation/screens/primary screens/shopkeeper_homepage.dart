@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laliguras_shopkeeper/widgets/custom%20bars/homepage_appbar.dart';
+import 'package:laliguras_shopkeeper/widgets/custom%20buttons/basket_button.dart';
 import 'package:provider/provider.dart';
-import '../../../core/themes/colors.dart';
 import '../../../providers/vegetable_provider.dart';
 import '../../../views/features/offer_slider.dart';
 import '../../../views/products/vegetable_grid.dart';
@@ -69,13 +69,7 @@ class ShopkeeperHomepage extends StatelessWidget {
         ),
       ),
       // Basket Button (FAB)
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/basket');
-        },
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.shopping_basket_outlined),
-      ),
+      floatingActionButton: const BasketButton(),
       bottomNavigationBar: const BottomNavbar(),
     );
   }

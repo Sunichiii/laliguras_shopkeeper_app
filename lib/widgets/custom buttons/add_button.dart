@@ -16,7 +16,7 @@ class AddButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.symmetric(vertical: 4.0), // Minimal vertical padding
+          padding: const EdgeInsets.symmetric(vertical: 2.0), // Minimal vertical padding
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0), // Small rounded edges
           ),

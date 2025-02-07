@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import '../../core/themes/colors.dart';
 import '../../models/vegetable_model.dart';
 import '../../providers/bulkorder_provider.dart';
+import '../../providers/cart_provider.dart';
 import '../../widgets/custom buttons/add_button.dart';
+import '../../widgets/custom buttons/quantity_selector_button.dart';
 import '../../widgets/custom buttons/view_more_button.dart';
 
 class BulkOrderCard extends StatelessWidget {
@@ -23,6 +25,7 @@ class BulkOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bulkOrderProvider = context.read<BulkOrderProvider>();
+    final cartProvider = context.read<CartProvider>();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
@@ -51,8 +54,8 @@ class BulkOrderCard extends StatelessWidget {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.red,
-                          ),
+                        color: Colors.red,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -111,32 +114,18 @@ class BulkOrderCard extends StatelessWidget {
                         ),
                       ),
                       // Quantity Controls
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () => bulkOrderProvider
-                                .decrementQuantity(vegetable.name),
-                            icon: const Icon(Icons.remove, size: 16),
-                          ),
-                          Text(
-                            bulkOrderProvider
-                                .getQuantity(vegetable.name)
-                                .toString(),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () => bulkOrderProvider
-                                .incrementQuantity(vegetable.name),
-                            icon: const Icon(Icons.add, size: 16),
-                          ),
-                        ],
+                      QuantitySelector(
+                        quantity: bulkOrderProvider.getQuantity(vegetable.name),
+                        onAdd: () =>
+                            bulkOrderProvider.incrementQuantity(vegetable.name),
+                        onSubtract: () =>
+                            bulkOrderProvider.decrementQuantity(vegetable.name),
+                        iconSize: 14.0, // Smaller icons for this page
+                        fontSize: 14.0, // Smaller font size for this page
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2), // Smaller padding
                       ),
-
+                      const SizedBox(width: 8),
                       // Price
                       Expanded(
                         flex: 1,
@@ -150,11 +139,37 @@ class BulkOrderCard extends StatelessWidget {
                       // Add Button
                       AddButton(
                         onPressed: () {
-                          // Handle add order logic
+                          // Add bulk quantity of the product to the cart
+                          final quantity =
+                          bulkOrderProvider.getQuantity(vegetable.name);
+
+                          if (quantity > 0) {
+                            cartProvider.addToCart(vegetable, quantity);
+
+                            // Show a confirmation message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Added $quantity ${vegetable.name}(s) to your cart!',
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select a quantity greater than zero.',
+                                ),
+                              ),
+                            );
+                          }
                         },
                       ),
                     ],
                   ),
+                  // Add vertical spacing between items
+                  if (vegetable != vegetables.last)
+                    const SizedBox(height: 12), // Add spacing only between items
                 ],
               );
             }).toList(),
