@@ -20,9 +20,7 @@ class LoginScreen extends StatelessWidget {
             const Spacer(flex: 2),
             Text(
               'Login',
-              style: textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
             CustomTextField(
@@ -43,10 +41,15 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   // Add forgot password logic
                 },
-                child: Text(
-                  'Forgot Password?',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: AppColors.primary,
+                child: TextButton(
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/forgetPassword');
+                  },
+                  child: Text(
+                    'Forgot Password?',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ),

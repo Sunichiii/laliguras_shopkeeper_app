@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laliguras_shopkeeper/presentation/screens/primary%20screens/delivery_page.dart';
+import 'package:laliguras_shopkeeper/services/auth/forget_password_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:laliguras_shopkeeper/presentation/screens/primary%20screens/bulkorder_page.dart';
 import 'package:laliguras_shopkeeper/presentation/screens/secondary%20screens/profile_setup_page.dart';
@@ -9,7 +10,6 @@ import '../presentation/screens/introduction screens/splash_screen.dart';
 import '../presentation/screens/primary screens/order_page.dart';
 import '../presentation/screens/primary screens/search_page.dart';
 import '../presentation/screens/primary screens/shopkeeper_homepage.dart';
-
 import '../presentation/screens/secondary screens/cart_page.dart';
 import '../presentation/screens/secondary screens/checkout_page.dart';
 import '../presentation/screens/secondary screens/payment_page.dart';
@@ -17,7 +17,7 @@ import '../presentation/screens/secondary screens/product_details_page.dart';
 import '../presentation/screens/secondary screens/sales_page.dart';
 import '../providers/delivery_provider.dart';
 import '../providers/order_provider.dart';
-import '../widgets/delivery_widgets/deivery_data.dart';
+import '../widgets/delivery_widgets/delivery_data.dart';
 import '../widgets/order widgets/order_data.dart';
 
 class RouteGenerator {
@@ -45,6 +45,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>  const CheckoutPage());
       case '/payment':
         return MaterialPageRoute(builder: (_) =>  const PaymentPage());
+      case '/forgetPassword':
+        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
 
       case '/productdetails':
         return MaterialPageRoute(builder: (_) => const ProductDetailsPage());
