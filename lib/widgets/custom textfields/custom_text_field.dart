@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/themes/colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -7,6 +6,7 @@ class CustomTextField extends StatelessWidget {
   final String imagePath;
   final bool obscureText;
   final TextStyle? hintStyle;
+  final TextEditingController? controller;
 
   const CustomTextField({
     super.key,
@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
     required this.imagePath,
     this.obscureText = false,
     this.hintStyle,
+    this.controller,
   });
 
   @override
@@ -29,11 +30,12 @@ class CustomTextField extends StatelessWidget {
                 imagePath,
                 width: 30,
                 height: 30,
-                color: AppColors.primary, // Icon color
+                color: AppColors.primary,
               ),
             ),
             Expanded(
               child: TextField(
+                controller: controller,
                 obscureText: obscureText,
                 decoration: InputDecoration(
                   hintText: hintText,
@@ -45,7 +47,7 @@ class CustomTextField extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 1), // Space between hint text and line
+        const SizedBox(height: 1),
         const Divider(
           thickness: 1,
           color: AppColors.grey,
