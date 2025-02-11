@@ -45,8 +45,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>  const CheckoutPage());
       case '/payment':
         return MaterialPageRoute(builder: (_) =>  const PaymentPage());
-      case '/forgetPassword':
-        return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
+        // case '/forgetPassword':
+        // return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
 
       case '/productdetails':
         return MaterialPageRoute(builder: (_) => const ProductDetailsPage());

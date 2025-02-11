@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom buttons/long_button.dart';
-
-import '../../core/themes/colors.dart';
 import '../../widgets/custom textfields/custom_text_field.dart';
+import '../../core/themes/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,13 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
             CustomTextField(
               hintText: 'Email',
               imagePath: 'assets/icons/email.png',
-              controller: _emailController, // ✅ Now passing the controller
+              controller: _emailController,
             ),
             const SizedBox(height: 16),
             CustomTextField(
               hintText: 'Password',
               imagePath: 'assets/icons/password.png',
-              controller: _passwordController, // ✅ Now passing the controller
+              controller: _passwordController,
               obscureText: true,
             ),
             Align(
@@ -65,9 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: Text(
                   'Forgot Password?',
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: AppColors.primary,
-                  ),
+                  style: textTheme.bodyMedium?.copyWith(color: AppColors.primary),
                 ),
               ),
             ),

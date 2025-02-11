@@ -1,12 +1,13 @@
-import 'package:laliguras_shopkeeper/data/models/login_request.dart';
-import 'package:laliguras_shopkeeper/data/models/user_model.dart';
-import 'package:laliguras_shopkeeper/data/repositories/auth_repository.dart';
+import '../../data/models/login_request.dart';
+import '../../data/models/user_model.dart';
+import '../../data/repositories/auth_repository.dart';
 
-class LoginUseCase{
-  final AuthRepository repository;
-  LoginUseCase(this.repository);
+class LoginUseCase {
+  final AuthRepository authRepository;
 
-  Future<UserModel> execute(LoginRequest request){
-    return repository.login(request);
+  LoginUseCase(this.authRepository);
+
+  Future<UserModel> execute(LoginRequest request) {
+    return authRepository.login(request);
   }
 }
