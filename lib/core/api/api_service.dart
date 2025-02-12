@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = "http://10.0.2.2:4000/api/v1";
+  final String baseUrl = "https://bishalpantha.com.np/api/v1";
 
   Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
     final url = Uri.parse('$baseUrl/$endpoint');
