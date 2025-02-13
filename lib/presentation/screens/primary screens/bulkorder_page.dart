@@ -12,9 +12,9 @@ class BulkOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vegetables = [
-      Vegetable(name: 'Potato', price: 5000, imagePath: 'assets/vegetables/potato.png', rating: 4, category: "Vegetable"),
-      Vegetable(name: 'Cabbage', price: 5000, imagePath: 'assets/vegetables/cabbage.png', rating: 4, category: "Vegetable"),
-      Vegetable(name: 'Tomato', price: 5000, imagePath: 'assets/vegetables/tomato.png', rating: 4, category: "Vegetable"),
+      Vegetable(name: 'Potato', price: 5000, imagePath: 'assets/vegetables/potato.png', rating: 4, category: "Vegetable", id: 1, stock: 38, description: ''),
+      Vegetable(name: 'Cabbage', price: 5000, imagePath: 'assets/vegetables/cabbage.png', rating: 4, category: "Vegetable", id: 2, stock: 46, description: ''),
+      Vegetable(name: 'Tomato', price: 5000, imagePath: 'assets/vegetables/tomato.png', rating: 4, category: "Vegetable", id: 3, stock: 56, description: ''),
     ];
 
     final bulkOrderProvider = context.read<BulkOrderProvider>();

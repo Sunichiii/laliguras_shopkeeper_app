@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:laliguras_shopkeeper/widgets/custom%20bars/homepage_appbar.dart';
-import 'package:laliguras_shopkeeper/widgets/custom%20buttons/basket_button.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/vegetable_provider.dart';
 import '../../../views/features/offer_slider.dart';
 import '../../../views/products/vegetable_grid.dart';
-import '../../../widgets/custom bars/bottom_navbar.dart';
+import '../../../widgets/custom%20bars/homepage_appbar.dart';
+import '../../../widgets/custom%20bars/bottom_navbar.dart';
+import '../../../widgets/custom%20buttons/basket_button.dart';
 
 class ShopkeeperHomepage extends StatelessWidget {
   const ShopkeeperHomepage({super.key});
@@ -14,7 +14,6 @@ class ShopkeeperHomepage extends StatelessWidget {
   Widget build(BuildContext context) {
     final vegetableProvider = Provider.of<VegetableProvider>(context);
 
-    // Trigger the fetchVegetables() on first build
     if (vegetableProvider.vegetables.isEmpty && !vegetableProvider.isLoading) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         vegetableProvider.fetchVegetables();
@@ -48,27 +47,26 @@ class ShopkeeperHomepage extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
 
-              // Vegetables Title
               Text(
                 "Vegetables",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16.0),
 
-              // Show vegetable grid or error message if any
-              vegetableProvider.errorMessage != null
+              vegetableProvider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : vegetableProvider.errorMessage != null
                   ? Center(
-                      child: Text(
-                        vegetableProvider.errorMessage!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    )
+                child: Text(
+                  vegetableProvider.errorMessage!,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              )
                   : VegetableGrid(vegetables: vegetableProvider.vegetables),
             ],
           ),
         ),
       ),
-      // Basket Button (FAB)
       floatingActionButton: const BasketButton(),
       bottomNavigationBar: const BottomNavbar(),
     );

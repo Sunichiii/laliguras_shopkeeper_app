@@ -1,64 +1,28 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../../models/vegetable_model.dart';
 
 class VegetableRepository {
+  final String apiUrl = "https://bishalpantha.com.np/api/v1/product";
+
   Future<List<Vegetable>> fetchVegetables() async {
-    return [
-      Vegetable(
-        name: "Capsicum",
-        price: 140.99,
-        imagePath: "assets/vegetables/capsicum.png",
-        rating: 3,
-        category: "Vegetables", // Add category
-      ),
-      Vegetable(
-        name: "Brinjal",
-        price: 140.99,
-        imagePath: "assets/vegetables/brinjal.png",
-        rating: 2,
-        category: "Vegetables", // Add category
-      ),
-      Vegetable(
-        name: "Chilly",
-        price: 140.99,
-        imagePath: "assets/vegetables/chilly.png",
-        rating: 4,
-        category: "Spices", // Add category
-      ),
-      Vegetable(
-        name: "Lady Finger",
-        price: 140.99,
-        imagePath: "assets/vegetables/ladyfinger.png",
-        rating: 1,
-        category: "Vegetables", // Add category
-      ),
-      Vegetable(
-        name: "Cabbage",
-        price: 140.99,
-        imagePath: "assets/vegetables/cabbage.png",
-        rating: 5,
-        category: "Leafy", // Add category
-      ),
-      Vegetable(
-        name: "Onion",
-        price: 140.99,
-        imagePath: "assets/vegetables/onion.png",
-        rating: 4,
-        category: "Roots", // Add category
-      ),
-      Vegetable(
-        name: "Potato",
-        price: 140.99,
-        imagePath: "assets/vegetables/potato.png",
-        rating: 2,
-        category: "Roots", // Add category
-      ),
-      Vegetable(
-        name: "Tomato",
-        price: 140.99,
-        imagePath: "assets/vegetables/tomato.png",
-        rating: 4,
-        category: "Vegetables", // Add category
-      ),
-    ];
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+
+        if (responseData['success']) {
+          List<dynamic> products = responseData['data']['products'];
+          return products.map((product) => Vegetable.fromJson(product)).toList();
+        } else {
+          throw Exception("API call was not successful.");
+        }
+      } else {
+        throw Exception("Failed to fetch data. Status Code: ${response.statusCode}");
+      }
+    } catch (e) {
+      throw Exception("Error fetching data: $e");
+    }
   }
 }

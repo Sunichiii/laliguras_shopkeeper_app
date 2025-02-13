@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:laliguras_shopkeeper/widgets/custom%20buttons/add_to_cart_button.dart';
 import 'package:provider/provider.dart';
 import '../../../core/themes/colors.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../providers/vegetable_provider.dart';
 import '../../../widgets/custom bars/secondary_appbar.dart';
+import '../../../widgets/custom buttons/add_to_cart_button.dart';
 import '../../../widgets/custom buttons/quantity_selector_inverse.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -16,10 +16,6 @@ class ProductDetailsPage extends StatefulWidget {
 
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   int quantity = 1; // Default quantity
-
-  // Long description applicable to all vegetables
-  final String longDescription =
-      "Our vegetables are sourced directly from local farmers, ensuring freshness and quality. Packed with essential nutrients, vitamins, and minerals, these vegetables are perfect for creating healthy and delicious meals for your family. Enjoy the best produce at affordable prices";
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +56,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       border: Border.all(color: AppColors.grey, width: 2),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Image.asset(
-                      vegetable.imagePath,
+                    child: Image.network(
+                      vegetable.imagePath, // Load API image
                       height: 150,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 100),
                     ),
                   ),
                   const SizedBox(width: 16),
+
                   // Vegetable Info
                   Expanded(
                     child: Column(
@@ -78,19 +76,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
                         Row(
                           children: List.generate(5, (index) {
-                            if (index < vegetable.rating.toInt()) {
-                              return const Icon(Icons.star,
-                                  color: Color(0xFFFF8A00), size: 20);
-                            } else {
-                              return const Icon(Icons.star,
-                                  color: Colors.grey, size: 20);
-                            }
+                            return Icon(
+                              index < vegetable.rating.toInt()
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color: Colors.orange,
+                              size: 20,
+                            );
                           }),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          "144 Reviews",
-                          style: TextStyle(color: Colors.grey),
+                        Text(
+                          "${vegetable.rating.toStringAsFixed(1)} ⭐",
+                          style: TextStyle(color: Colors.grey.shade600),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -101,6 +99,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                               .copyWith(color: AppColors.primary),
                         ),
                         const SizedBox(height: 16),
+
                         // Quantity Selector and Add to Cart
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -122,10 +121,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             ),
                             AddToCartButtonButton(
                               onPressed: () {
-                                // Add the selected item to the cart
                                 cartProvider.addToCart(vegetable, quantity);
 
-                                // Show a confirmation message
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -161,14 +158,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ),
               const SizedBox(height: 8),
               Text(
-                "Fresh and high-quality ${vegetable.name} available for purchase.",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(height: 16),
-
-              // Long Description Section
-              Text(
-                longDescription,
+                vegetable.description.isNotEmpty
+                    ? vegetable.description
+                    : "Fresh and high-quality ${vegetable.name} available for purchase.",
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ],

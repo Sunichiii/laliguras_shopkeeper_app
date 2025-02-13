@@ -12,7 +12,6 @@ class VegetableGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize favorites in the provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FavoritesProvider>().initializeFavorites(vegetables.length);
     });
@@ -21,10 +20,10 @@ class VegetableGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-        childAspectRatio: 0.7,
+        crossAxisCount: 3, // Three items per row
+        crossAxisSpacing: 10.0, // Increased spacing
+        mainAxisSpacing: 10.0,
+        childAspectRatio: 0.8, // Adjusted for consistent item sizing
       ),
       itemCount: vegetables.length,
       itemBuilder: (context, index) {
@@ -33,72 +32,92 @@ class VegetableGrid extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            // Set the selected vegetable in the provider
             context.read<VegetableProvider>().setSelectedVegetable(vegetable);
-
-            // Navigate to the product details page
             Navigator.pushNamed(context, '/productdetails');
           },
           child: Stack(
             children: [
-              // Main Container
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppColors.grey,
-                      blurRadius: 6,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      vegetable.imagePath,
-                      height: 60.0,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      vegetable.name,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    Text(
-                      "Rs. ${vegetable.price.toStringAsFixed(2)}",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(5, (starIndex) {
-                        if (starIndex < vegetable.rating.toInt()) {
-                          return const Icon(Icons.star,
-                              color: Color(0xFFFF8A00), size: 16);
-                        } else {
-                          return const Icon(Icons.star,
-                              color: Colors.grey, size: 16);
-                        }
-                      }),
-                    ),
-                  ],
+              IntrinsicHeight(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure even spacing
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Product Image
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Image.network(
+                          vegetable.imagePath,
+                          height: 60.0, // Increased image size for better visibility
+                          width: 60.0,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+
+                      // Product Name
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: Text(
+                          vegetable.name,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2, // Allows slightly longer names
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+
+                      // Price
+                      Text(
+                        "Rs. ${vegetable.price.toStringAsFixed(2)}",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(5, (starIndex) {
+                            return Icon(
+                              starIndex < vegetable.rating.toInt()
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color: Colors.orange,
+                              size: 14,
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              // Favorite Button (Top-Right)
+
+              // Favorite Icon Positioned at the Top Right
               Positioned(
-                top: 8.0,
-                right: 8.0,
+                top: 6.0,
+                right: 6.0,
                 child: GestureDetector(
                   onTap: () {
                     context.read<FavoritesProvider>().toggleFavorite(index);
                   },
-                  child: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.grey,
-                    size: 20.0,
+                  child: CircleAvatar(
+                    radius: 12.0,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.grey,
+                      size: 18.0,
+                    ),
                   ),
                 ),
               ),
