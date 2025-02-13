@@ -12,6 +12,7 @@ class VegetableGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize favorites in the provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<FavoritesProvider>().initializeFavorites(vegetables.length);
     });
@@ -21,9 +22,9 @@ class VegetableGrid extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3, // Three items per row
-        crossAxisSpacing: 10.0, // Increased spacing
-        mainAxisSpacing: 10.0,
-        childAspectRatio: 0.8, // Adjusted for consistent item sizing
+        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 8.0,
+        childAspectRatio: 0.7,
       ),
       itemCount: vegetables.length,
       itemBuilder: (context, index) {
@@ -32,80 +33,83 @@ class VegetableGrid extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
+            // Set the selected vegetable in the provider
             context.read<VegetableProvider>().setSelectedVegetable(vegetable);
+
+            // Navigate to the product details page
             Navigator.pushNamed(context, '/productdetails');
           },
           child: Stack(
             children: [
-              IntrinsicHeight(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(6.0),
-                  ),
+              // Main Container
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Align(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure even spacing
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Product Image
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
                         child: Image.network(
                           vegetable.imagePath,
-                          height: 60.0, // Increased image size for better visibility
-                          width: 60.0,
-                          fit: BoxFit.contain,
+                          height: 60.0,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image, size: 60),
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+
+
+                      Text(
+                        vegetable.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
 
-                      // Product Name
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: Text(
-                          vegetable.name,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 2, // Allows slightly longer names
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
 
-                      // Price
                       Text(
                         "Rs. ${vegetable.price.toStringAsFixed(2)}",
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.black,
                           fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
                         ),
                       ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      const SizedBox(height: 8.0),
+                      Align(
+                        alignment: Alignment.centerLeft,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: List.generate(5, (starIndex) {
                             return Icon(
-                              starIndex < vegetable.rating.toInt()
-                                  ? Icons.star
-                                  : Icons.star_border,
-                              color: Colors.orange,
-                              size: 14,
+                              Icons.star,
+                              color: starIndex < vegetable.rating.toInt()
+                                  ? const Color(0xffff8a00) // Orange for selected stars
+                                  : Colors.grey, // Grey for unselected stars
+                              size: 16,
                             );
                           }),
                         ),
                       ),
+
                     ],
                   ),
                 ),
               ),
 
-              // Favorite Icon Positioned at the Top Right
+              // Favorite Button (Top-Right)
               Positioned(
-                top: 6.0,
-                right: 6.0,
+                top: 8.0,
+                right: 8.0,
                 child: GestureDetector(
                   onTap: () {
                     context.read<FavoritesProvider>().toggleFavorite(index);
@@ -115,7 +119,7 @@ class VegetableGrid extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorite ? Colors.red : Colors.grey,
+                      color: isFavorite ? Colors.red : AppColors.primary,
                       size: 18.0,
                     ),
                   ),

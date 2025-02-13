@@ -22,7 +22,8 @@ class VegetableRepository {
         throw Exception("Failed to fetch data. Status Code: ${response.statusCode}");
       }
     } catch (e) {
-      throw Exception("Error fetching data: $e");
+      throw Exception("Error fetching dat"
+          "a: $e");
     }
   }
 }

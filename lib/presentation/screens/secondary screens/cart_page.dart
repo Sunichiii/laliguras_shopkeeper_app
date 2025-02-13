@@ -4,7 +4,7 @@ import '../../../core/themes/colors.dart';
 import '../../../providers/cart_provider.dart';
 import '../../../widgets/custom bars/secondary_appbar.dart';
 import '../../../widgets/custom buttons/long_button.dart';
-import '../../../widgets/custom buttons/quantity_selector_button.dart';
+//import '../../../widgets/custom buttons/quantity_selector_button.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
